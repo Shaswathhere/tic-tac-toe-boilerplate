@@ -1,5 +1,5 @@
 const Element=document.querySelectorAll(".box");
-var winningCombinations = [
+var winningPossibilities = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -12,17 +12,18 @@ var winningCombinations = [
 var xAttempt = [];
 var oAttempt = [];
 var click=0;
-var wonTheGame = 0;
+var won = 0;
 const message= document.getElementById("message");
 const restart=document.getElementById("button");
-const gameResult=document.getElementById("result");
+const Result=document.getElementById("result");
 
 // Iteration 2: Onclick function
 Element.forEach(box=>{
-
-    box.onclick  = handleClick;
+    box.onclick  = Click;
 })
-function handleClick(e){
+
+
+function Click(e){
     
     const i=e.target.getAttribute('id'); 
     const text = document.createElement('p');
@@ -33,45 +34,46 @@ function handleClick(e){
         xAttempt.push(parseInt(i-1));
         
         text.innerHTML="X"; 
-        text.style.color = '#FAB201';
-        result(winningCombinations,xAttempt,"X");
+        text.style.color = 'black';
+        result(winningPossibilities,xAttempt,"X");
     }
     else{
         oAttempt.push(parseInt(i-1));
         
         text.innerHTML="O";
-        text.style.color = '#FAB201';
-        result(winningCombinations,oAttempt,"O");
+        text.style.color = 'black';
+        result(winningPossibilities,oAttempt,"O");
     }
     click++;
-    if(click == 9 && wonTheGame == 0){ 
-            gameResult.style.visibility="visible";
+    if(click == 9 && won == 0){ 
+            Result.style.visibility="visible";
             message.innerHTML = " Match Drawn ";
     }
 }
 
 // Iteration 3: Result function
-function result(winningCombinations, attempts, player){
+function result(winningPossibilities, attempts, player){
     let flag = 0;
     let checker = [];
-    for (var i = 0; i < winningCombinations.length; i++) {
+    for (var i = 0; i < winningPossibilities.length; i++) {
         
-        if (Array.isArray(winningCombinations[i])){
-                                                   
-            result(winningCombinations[i],attempts,player);
-        }else{
-            if(attempts.includes(winningCombinations[i])){ 
+        if (Array.isArray(winningPossibilities[i])){
+            result(winningPossibilities[i],attempts,player);
+        }
+        else{
+            if(attempts.includes(winningPossibilities[i])){ 
                 checker.push(true); 
                 flag++;
-            } else {
+            } 
+            else {
                 checker.push(false)
             }
         }
     }
     if (checker.every(check => check === true)&&flag>2){
-            gameResult.style.visibility="visible";
+            Result.style.visibility="visible";
             message.innerHTML ="'"+ player +"'" + " Won the game ";  
-            wonTheGame=1;   
+            won=1;   
     }
 }
 
